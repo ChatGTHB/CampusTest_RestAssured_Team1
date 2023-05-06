@@ -39,7 +39,9 @@ public class Cam05_FieldsTests {
         userCredential.put("rememberMe","true");
 
         Cookies cookies=
+
                 given()
+
                         .contentType(ContentType.JSON)
                         .body(userCredential)
 
@@ -51,6 +53,7 @@ public class Cam05_FieldsTests {
                         .statusCode(200)
                         .extract().response().getDetailedCookies()
                 ;
+
         recSpec= new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
                 .addCookies(cookies)
@@ -68,7 +71,9 @@ public class Cam05_FieldsTests {
         fields.put("schoolId","6390f3207a3bcb6a7ac977f9");
 
         fieldID=
+
                 given()
+
                         .spec(recSpec)
                         .body(fields)
                         .log().body()
