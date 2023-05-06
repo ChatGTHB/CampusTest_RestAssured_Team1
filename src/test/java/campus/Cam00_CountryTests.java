@@ -16,7 +16,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Cam00_CountryTest {
+public class Cam00_CountryTests {
 
     Faker faker=new Faker();
     String countryID;
