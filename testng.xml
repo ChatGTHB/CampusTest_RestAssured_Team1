@@ -3,7 +3,7 @@
 <suite name="All Test Suite">
     <test name="Main Test">
         <classes>
-            <class name="campus.Cam00_CountryTest">
+            <class name="campus.Cam00_CountryTests">
             </class>
         </classes>
     </test>
