@@ -11,11 +11,12 @@ import org.testng.annotations.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Cam03_AttestationsTest {
+public class Cam03_AttestationsTests {
 
     Faker faker = new Faker();
     String attestationID;
@@ -62,7 +63,7 @@ public class Cam03_AttestationsTest {
 
         attestationName = "Degree Certificates Attestation - " + faker.number().digits(5);
         attestation.put("name", attestationName);
-        
+
 
         attestationID =
 
@@ -105,6 +106,7 @@ public class Cam03_AttestationsTest {
 
     @Test(dependsOnMethods = "createAttestation")
     public void updateAttestation() {
+
         attestationName = "Post Graduation Certificates Attestation - " + faker.number().digits(5);
 
         attestation.put("id", attestationID);
@@ -114,7 +116,7 @@ public class Cam03_AttestationsTest {
 
                 .spec(requestSpecification)
                 .body(attestation)
-               // .log().body()
+                // .log().body()
 
                 .when()
                 .put("/school-service/api/attestation")
@@ -135,7 +137,7 @@ public class Cam03_AttestationsTest {
                 .log().uri()
 
                 .when()
-                .delete("/school-service/api/attestation/"+attestationID)
+                .delete("/school-service/api/attestation/" + attestationID)
 
                 .then()
                 .log().body()
@@ -147,6 +149,7 @@ public class Cam03_AttestationsTest {
     public void deleteAttestationNegative() {
 
         given()
+
                 .spec(requestSpecification)
                 .pathParam("attestationID", attestationID)
                 .log().uri()
@@ -157,7 +160,7 @@ public class Cam03_AttestationsTest {
                 .then()
                 .log().body()
                 .statusCode(400)
-                .body("message",equalTo("attestation not found"))
+                .body("message", equalTo("attestation not found"))
         ;
     }
 }
