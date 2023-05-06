@@ -114,7 +114,7 @@ public class Cam03_AttestationsTest {
 
                 .spec(requestSpecification)
                 .body(attestation)
-                .log().body()
+               // .log().body()
 
                 .when()
                 .put("/school-service/api/attestation")
@@ -123,6 +123,23 @@ public class Cam03_AttestationsTest {
                 .log().body() // show incoming body as log
                 .statusCode(200)
                 .body("name", equalTo(attestationName))
+        ;
+    }
+
+    @Test(dependsOnMethods = "updateAttestation")
+    public void deleteAttestation() {
+
+        given()
+
+                .spec(requestSpecification)
+                .log().uri()
+
+                .when()
+                .delete("/school-service/api/attestation/"+attestationID)
+
+                .then()
+                .log().body()
+                .statusCode(204)
         ;
     }
 
