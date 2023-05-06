@@ -84,5 +84,24 @@ public class Cam03_AttestationsTest {
         System.out.println("attestationID = " + attestationID);
     }
 
+    @Test(dependsOnMethods = "createAttestation")
+    public void createAttestationNegative() {
+
+        given()
+
+                .spec(requestSpecification)
+                .body(attestation)
+                .log().body()
+
+                .when()
+                .post("/school-service/api/attestation")
+
+                .then()
+                .log().body()
+                .statusCode(400)
+                .body("message", containsString("already"))
+        ;
+    }
+
 
 }
