@@ -16,7 +16,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Cam07_SubjectCategoriesTest {
+public class Cam07_SubjectCategoriesTests {
     Faker faker = new Faker();
     String subjectID;
     String subjectName;
@@ -26,6 +26,7 @@ public class Cam07_SubjectCategoriesTest {
 
     @BeforeClass
     public void Setup() {
+
         baseURI = "https://test.mersys.io";
 
         Map<String, String> userCredential = new HashMap<>();
@@ -34,7 +35,9 @@ public class Cam07_SubjectCategoriesTest {
         userCredential.put("rememberMe", "true");
 
         Cookies cookies =
+
                 given()
+
                         .contentType(ContentType.JSON)
                         .body(userCredential)
 
@@ -54,6 +57,7 @@ public class Cam07_SubjectCategoriesTest {
 
     @Test
     public void createSubject() {
+
         subject = new HashMap<>();
         subjectName = faker.country().name() + faker.number().digits(5);
         subjectCode = faker.country().countryCode2() + faker.number().digits(5);
@@ -62,7 +66,9 @@ public class Cam07_SubjectCategoriesTest {
         subject.put("code", subjectCode);
 
         subjectID =
+
                 given()
+
                         .spec(recSpec)
                         .body(subject)
                         .log().body()
@@ -74,16 +80,18 @@ public class Cam07_SubjectCategoriesTest {
                         .log().body()
                         .statusCode(201)
                         .extract().path("id");
+
         System.out.println("subjectID = " + subjectID);
     }
 
     @Test(dependsOnMethods = "createSubject")
     public void createSubjectNegative() {
+
         subject.put("name", subjectName);
         subject.put("code", subjectCode);
 
-
         given()
+
                 .spec(recSpec)
                 .body(subject)
                 .log().body()
@@ -95,23 +103,20 @@ public class Cam07_SubjectCategoriesTest {
                 .log().body()
                 .statusCode(400)
                 .body("message", containsString("already"))
-
         ;
-
-        ;
-
     }
 
     @Test(dependsOnMethods = "createSubjectNegative")
     public void updateSubject() {
+
         subject.put("id", subjectID);
 
         subjectName = ("TechnoStudy" + faker.number().digits(5));
         subject.put("name", subjectName);
         subject.put("code", subjectCode);
 
-
         given()
+
                 .spec(recSpec)
                 .body(subject)
                 // .log().body()
@@ -123,15 +128,14 @@ public class Cam07_SubjectCategoriesTest {
                 .log().body()
                 .statusCode(200)
                 .body("name", equalTo(subjectName))
-
         ;
-
-
     }
 
     @Test(dependsOnMethods = "updateSubject")
     public void deleteSubject() {
+
         given()
+
                 .spec(recSpec)
                 .pathParam("subjectID", subjectID)
                 .log().uri()
@@ -142,16 +146,14 @@ public class Cam07_SubjectCategoriesTest {
                 .then()
                 .log().body()
                 .statusCode(200)
-
-
         ;
-
-
     }
 
     @Test(dependsOnMethods = "deleteSubject")
     public void deleteSubjectNegative() {
+
         given()
+
                 .spec(recSpec)
                 .pathParam("subjectID", subjectID)
                 .log().uri()
@@ -163,10 +165,6 @@ public class Cam07_SubjectCategoriesTest {
                 .log().body()
                 .statusCode(400)
                 .body("message", equalTo("SubjectCategory not  found"))
-
-
         ;
     }
-
-
 }
