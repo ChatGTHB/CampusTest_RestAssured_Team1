@@ -102,9 +102,7 @@ public class Cam02_PositionCategoriesTests {
                 .log().body()
                 .statusCode(400)
                 .body("message", containsString("already"))
-
                 ;
-
     }
 
     @Test(dependsOnMethods = "createPositionCategories")
@@ -146,8 +144,6 @@ public class Cam02_PositionCategoriesTests {
                 .log().body()
                 .statusCode(204)
         ;
-
-
     }
 
     @Test(dependsOnMethods = "deletePositionCategories")
@@ -167,7 +163,5 @@ public class Cam02_PositionCategoriesTests {
                 .statusCode(400)
                 .body("message", equalTo("PositionCategory not  found"))
         ;
-
     }
-
 }
