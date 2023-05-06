@@ -16,7 +16,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Cam05_FieldsTest {
+public class Cam05_FieldsTests {
 
     String fieldName;
     String fieldID;
@@ -30,6 +30,7 @@ public class Cam05_FieldsTest {
 
     @BeforeClass
     public void Setup()  {
+
         baseURI="https://test.mersys.io";
 
         Map<String,String> userCredential=new HashMap<>();
@@ -59,7 +60,6 @@ public class Cam05_FieldsTest {
     @Test
     public void createFields() {
 
-
      fieldName="field-"+faker.number().digits(3);
      fieldCode=faker.number().digits(5);
         fields.put("name",fieldName);
@@ -79,9 +79,8 @@ public class Cam05_FieldsTest {
                         .then()
                         .log().body()
                         .statusCode(201)
-                        .extract().path("id");
-
-
+                        .extract().path("id")
+        ;
     }
 
     @Test(dependsOnMethods = "createFields")
@@ -102,6 +101,7 @@ public class Cam05_FieldsTest {
                 .body("message", containsString("already"))
         ;
     }
+
     @Test(dependsOnMethods = "createFields")
     public void updateFields() {
 
@@ -112,6 +112,7 @@ public class Cam05_FieldsTest {
         fields.put("id", fieldID);
 
         given()
+
                 .spec(recSpec)
                 .body(fields)
                 .log().body()
@@ -130,6 +131,7 @@ public class Cam05_FieldsTest {
     public void deleteFields()  {
 
         given()
+
                 .spec(recSpec)
                 .log().uri()
 
@@ -140,8 +142,8 @@ public class Cam05_FieldsTest {
                 .log().body()
                 .statusCode(204)
         ;
-
     }
+
     @Test(dependsOnMethods = "deleteFields")
     public void deleteFieldsNegative() {
 
