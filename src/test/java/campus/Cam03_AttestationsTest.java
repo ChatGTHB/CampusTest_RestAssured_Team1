@@ -103,5 +103,28 @@ public class Cam03_AttestationsTest {
         ;
     }
 
+    @Test(dependsOnMethods = "createAttestation")
+    public void updateAttestation() {
+        attestationName = "Post Graduation Certificates Attestation - " + faker.number().digits(5);
+
+        attestation.put("id", attestationID);
+        attestation.put("name", attestationName);
+
+        given()
+
+                .spec(requestSpecification)
+                .body(attestation)
+                .log().body()
+
+                .when()
+                .put("/school-service/api/attestation")
+
+                .then()
+                .log().body() // show incoming body as log
+                .statusCode(200)
+                .body("name", equalTo(attestationName))
+        ;
+    }
+
 
 }
