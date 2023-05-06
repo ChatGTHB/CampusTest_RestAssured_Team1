@@ -143,5 +143,21 @@ public class Cam03_AttestationsTest {
         ;
     }
 
+    @Test(dependsOnMethods = "deleteAttestation")
+    public void deleteAttestationNegative() {
 
+        given()
+                .spec(requestSpecification)
+                .pathParam("attestationID", attestationID)
+                .log().uri()
+
+                .when()
+                .delete("/school-service/api/attestation/{attestationID}")
+
+                .then()
+                .log().body()
+                .statusCode(400)
+                .body("message",equalTo("attestation not found"))
+        ;
+    }
 }
