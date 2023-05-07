@@ -1,7 +1,6 @@
 package campus;
 
 
-
 import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -167,8 +166,6 @@ public class Cam06_PositionsTest {
                 .then()
                 .log().body()
                 .statusCode(204)
-
         ;
     }
-
 }
