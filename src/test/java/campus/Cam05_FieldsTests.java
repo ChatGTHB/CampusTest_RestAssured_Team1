@@ -30,7 +30,6 @@ public class Cam05_FieldsTests {
 
     @BeforeClass
     public void Setup()  {
-
         baseURI="https://test.mersys.io";
 
         Map<String,String> userCredential=new HashMap<>();
@@ -39,9 +38,7 @@ public class Cam05_FieldsTests {
         userCredential.put("rememberMe","true");
 
         Cookies cookies=
-
                 given()
-
                         .contentType(ContentType.JSON)
                         .body(userCredential)
 
@@ -53,7 +50,6 @@ public class Cam05_FieldsTests {
                         .statusCode(200)
                         .extract().response().getDetailedCookies()
                 ;
-
         recSpec= new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
                 .addCookies(cookies)
@@ -63,17 +59,16 @@ public class Cam05_FieldsTests {
     @Test
     public void createFields() {
 
+
      fieldName="field-"+faker.number().digits(3);
      fieldCode=faker.number().digits(5);
         fields.put("name",fieldName);
         fields.put("code",fieldCode);
         fields.put("type","STRING");
-        fields.put("schoolId","6390f3207a3bcb6a7ac977f9");
+       fields.put("schoolId","6390f3207a3bcb6a7ac977f9");
 
         fieldID=
-
                 given()
-
                         .spec(recSpec)
                         .body(fields)
                         .log().body()
@@ -84,8 +79,8 @@ public class Cam05_FieldsTests {
                         .then()
                         .log().body()
                         .statusCode(201)
-                        .extract().path("id")
-        ;
+                        .extract().path("id");
+
     }
 
     @Test(dependsOnMethods = "createFields")
@@ -103,10 +98,9 @@ public class Cam05_FieldsTests {
                 .then()
                 .log().body()
                 .statusCode(400)
-                .body("message", containsString("already"))
+                .body("message", containsString("already exists"))
         ;
     }
-
     @Test(dependsOnMethods = "createFields")
     public void updateFields() {
 
@@ -117,7 +111,6 @@ public class Cam05_FieldsTests {
         fields.put("id", fieldID);
 
         given()
-
                 .spec(recSpec)
                 .body(fields)
                 .log().body()
@@ -136,7 +129,6 @@ public class Cam05_FieldsTests {
     public void deleteFields()  {
 
         given()
-
                 .spec(recSpec)
                 .log().uri()
 
@@ -147,24 +139,24 @@ public class Cam05_FieldsTests {
                 .log().body()
                 .statusCode(204)
         ;
-    }
 
+    }
     @Test(dependsOnMethods = "deleteFields")
     public void deleteFieldsNegative() {
 
         given()
 
                 .spec(recSpec)
-                .pathParam("fieldID", fieldID)
+            //    .pathParam("fieldID", fieldID)
                 .log().uri()
 
                 .when()
-                .delete("/school-service/api/attestation/{fieldID}")
+                .delete("/school-service/api/entity-field/"+ fieldID)
 
                 .then()
                 .log().body()
                 .statusCode(400)
-                .body("message", equalTo("attestation not found"))
+                .body("message", equalTo("EntityField not found"))
         ;
     }
 }
