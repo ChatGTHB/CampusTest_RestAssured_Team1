@@ -58,6 +58,7 @@ public class Cam11_GradeLevelsTests {
 
     @Test
     public void createGradeLevel() {
+
         gradeLevel = new HashMap<>();
         gradelevelName = faker.name().firstName() + faker.number().digits(5);
         gradelevelShortName = faker.name().lastName() + faker.number().digits(5);
@@ -66,6 +67,7 @@ public class Cam11_GradeLevelsTests {
         gradeLevel.put("shortName", gradelevelShortName);
 
         gradelevelID =
+
                 given()
 
                         .spec(recSpec)
@@ -86,6 +88,7 @@ public class Cam11_GradeLevelsTests {
 
     @Test(dependsOnMethods = "createGradeLevel")
     public void createGradeLevelNegative() {
+
         gradeLevel.put("name", gradelevelName);
         gradeLevel.put("shortName", gradelevelShortName);
 
@@ -108,8 +111,8 @@ public class Cam11_GradeLevelsTests {
 
     @Test(dependsOnMethods = "createGradeLevelNegative")
     public void updateGradeLevel() {
-        gradeLevel.put("id", gradelevelID);
 
+        gradeLevel.put("id", gradelevelID);
         gradelevelName = ("TechnoStudy" + faker.number().digits(5));
         gradeLevel.put("name", gradelevelName);
         gradeLevel.put("shortName", gradelevelShortName);
@@ -133,6 +136,7 @@ public class Cam11_GradeLevelsTests {
 
     @Test(dependsOnMethods = "updateGradeLevel")
     public void deleteGradeLevel() {
+
         given()
 
                 .spec(recSpec)
@@ -146,7 +150,6 @@ public class Cam11_GradeLevelsTests {
                 .log().body()
                 .statusCode(200)
         ;
-
     }
 
     @Test(dependsOnMethods = "deleteGradeLevel")
@@ -165,8 +168,5 @@ public class Cam11_GradeLevelsTests {
                 .statusCode(400)
                 .body("message", equalTo("Grade Level not found."))
         ;
-
     }
-
-
 }
