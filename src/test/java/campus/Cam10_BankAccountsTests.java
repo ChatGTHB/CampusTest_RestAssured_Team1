@@ -55,11 +55,8 @@ public class Cam10_BankAccountsTests {
                 .build();
     }
 
-
-
     @Test
     public void createBankAccount() {
-
 
        bankAccount=new HashMap<>();
 
@@ -88,15 +85,11 @@ public class Cam10_BankAccountsTests {
                         .log().body()
                         .statusCode(201)
                         .extract().path("id")
-
         ;
-
-
     }
 
     @Test(dependsOnMethods = "createBankAccount")
     public void createBankAccountNegative() {
-
 
         given()
 
@@ -117,7 +110,6 @@ public class Cam10_BankAccountsTests {
     @Test(dependsOnMethods = "createBankAccount")
     public void updateBankAccount() {
 
-
         bankAccountUserName= faker.address().firstName()+" "+faker.address().lastName()+" "+faker.address().lastName();
         bankAccount.put("name", bankAccountUserName);
 
@@ -127,7 +119,6 @@ public class Cam10_BankAccountsTests {
         bankAccount.put("currency", "USD");
         bankAccount.put("schoolId", "6390f3207a3bcb6a7ac977f9");
         bankAccount.put("id",bankAccountID);
-
 
         given()
 
@@ -143,13 +134,10 @@ public class Cam10_BankAccountsTests {
                 .statusCode(200)
                 .body("name", equalTo(bankAccountUserName))
         ;
-
-
     }
 
     @Test(dependsOnMethods = "updateBankAccount")
     public void deleteBankAccount() {
-
 
         given()
 
@@ -182,5 +170,4 @@ public class Cam10_BankAccountsTests {
                 .body("message", containsString("must be exist"))
         ;
     }
-
 }
