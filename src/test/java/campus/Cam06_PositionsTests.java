@@ -1,7 +1,6 @@
 package campus;
 
 
-
 import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -19,7 +18,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 
-public class Cam06_PositionsTest {
+public class Cam06_PositionsTests {
 
     Faker faker = new Faker();
     String positionsID;
@@ -167,8 +166,6 @@ public class Cam06_PositionsTest {
                 .then()
                 .log().body()
                 .statusCode(204)
-
         ;
     }
-
 }
