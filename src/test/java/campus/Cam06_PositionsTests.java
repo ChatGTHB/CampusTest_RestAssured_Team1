@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 
-public class Cam06_PositionsTest {
+public class Cam06_PositionsTests {
 
     Faker faker = new Faker();
     String positionsID;
