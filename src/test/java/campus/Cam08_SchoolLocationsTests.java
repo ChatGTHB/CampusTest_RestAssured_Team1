@@ -56,7 +56,7 @@ public class Cam08_SchoolLocationsTests {
                 .build();
     }
     @Test
-    public void CreateSchoolLocations() {
+    public void createSchoolLocation() {
 
         SchoolLocation = new HashMap<>();
 
@@ -89,8 +89,8 @@ public class Cam08_SchoolLocationsTests {
         System.out.println("LocationID = " + SchoolLocationID);
     }
 
-    @Test(dependsOnMethods = "CreateSchoolLocations")
-    public void createSchoolLocationsNegative() {
+    @Test(dependsOnMethods = "createSchoolLocation")
+    public void createSchoolLocationNegative() {
 
         SchoolLocation.put("name", SchoolLocationName);
         SchoolLocation.put("shortName", SchoolLocationShortName);
@@ -111,8 +111,8 @@ public class Cam08_SchoolLocationsTests {
         ;
     }
 
-    @Test(dependsOnMethods = "createSchoolLocationsNegative")
-    public void updateSchoolLocations() {
+    @Test(dependsOnMethods = "createSchoolLocationNegative")
+    public void updateSchoolLocation() {
 
         SchoolLocation.put("id", SchoolLocationID);
         SchoolLocationName = ("TechnoStudy" + faker.number().digits(5));
@@ -135,8 +135,8 @@ public class Cam08_SchoolLocationsTests {
         ;
     }
 
-    @Test(dependsOnMethods = "updateSchoolLocations")
-    public void deleteSchoolLocations() {
+    @Test(dependsOnMethods = "updateSchoolLocation")
+    public void deleteSchoolLocation() {
 
         given()
 
@@ -153,7 +153,7 @@ public class Cam08_SchoolLocationsTests {
         ;
     }
 
-    @Test(dependsOnMethods = "deleteSchoolLocations")
+    @Test(dependsOnMethods = "deleteSchoolLocation")
     public void deleteSchoolLocationNegative() {
         given()
 
