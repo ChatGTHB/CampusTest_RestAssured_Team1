@@ -13,24 +13,19 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
 
-public class Cam06_PositionsTests {
-
-    Faker faker = new Faker();
-    String positionsID;
-    String positionsName;
-    String positionsShort;
+public class Cam09_DepartmentsTests {
     RequestSpecification recSpec;
-    Map<String, String> positions = new HashMap<>();
-
+    String departmentsId;
+    String departmentsName;
+    Faker faker = new Faker();
     @BeforeClass
-    public void Setup() {
+    public void Login() {
 
         baseURI = "https://test.mersys.io";
 
         Map<String, String> userCredential = new HashMap<>();
+
         userCredential.put("username", "turkeyts");
         userCredential.put("password", "TechnoStudy123");
         userCredential.put("rememberMe", "true");
@@ -41,14 +36,13 @@ public class Cam06_PositionsTests {
 
                         .contentType(ContentType.JSON)
                         .body(userCredential)
-
                         .when()
                         .post("/auth/login")
-
                         .then()
-                        // .log().all()
+                        .log().all()
                         .statusCode(200)
                         .extract().response().getDetailedCookies();
+
 
         recSpec = new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
@@ -57,108 +51,107 @@ public class Cam06_PositionsTests {
     }
 
     @Test
-    public void createPositions() {
+    public void createDepartments() {
 
-        positionsName = "seyma" + faker.number().digits(5);
-        positionsShort = "seyma" + faker.number().digits(5);
+        Map<String, String> departments = new HashMap<>();
 
-        positions.put("name", positionsName);
-        positions.put("shortName", positionsShort);
-        positions.put("tenantId", "6390ef53f697997914ec20c2");
-        positions.put("active", "true");
+        departmentsName = faker.country().countryCode2() + faker.number().digits(3);
+        departments.put("name", departmentsName);
+        departments.put("code", faker.number().digits(4));
+        departments.put("school", "6390f3207a3bcb6a7ac977f9");
 
-        positionsID =
+        departmentsId =
 
                 given()
 
                         .spec(recSpec)
-                        .body(positions)
+                        .body(departments)
                         .log().body()
 
                         .when()
-                        .post("/school-service/api/employee-position")
+                        .post("/school-service/api/department")
 
                         .then()
                         .log().body()
                         .statusCode(201)
-                        .extract().path("id");
-
-        System.out.println("positionsID = " + positionsID);
+                        .extract().path("id")
+        ;
     }
 
-    @Test(dependsOnMethods = "createPositions")
-    public void createPositionsNegative() {
+    @Test(dependsOnMethods = "createDepartments")
+    public void createDepartmentsNegative() {
+
+        Map<String, String> departments = new HashMap<>();
+
+        departments.put("name", departmentsName);
+        departments.put("code", faker.number().digits(4));
+        departments.put("school", "6390f3207a3bcb6a7ac977f9");
 
         given()
 
                 .spec(recSpec)
-                .body(positions)
+                .body(departments)
                 .log().body()
 
                 .when()
-                .post("/school-service/api/employee-position")
+                .post("/school-service/api/department")
 
                 .then()
                 .log().body()
                 .statusCode(400)
-                .body("message", containsString("already"))
+                .extract().path("id")
         ;
     }
 
-    @Test(dependsOnMethods = "createPositionsNegative")
-    public void updatePositions() {
+    @Test(dependsOnMethods = "createDepartmentsNegative")
+    public void updateParameters() {
 
-        positions.put("id", positionsID);
+        Map<String, String> departments = new HashMap<>();
+        departmentsName = "departName" + faker.number().digits(3);
+        departments.put("name", departmentsName);
+        departments.put("id", departmentsId);
+        departments.put("code", faker.number().digits(4));
+        departments.put("school", "6390f3207a3bcb6a7ac977f9");
 
-        positionsName = ("TechnoStudy" + faker.number().digits(5));
-        positions.put("name", positionsName);
-        positions.put("shortName", positionsShort);
 
         given()
-
                 .spec(recSpec)
-                .body(positions)
-                // .log().body()
+                .body(departments)
+                .log().body()
 
                 .when()
-                .put("/school-service/api/employee-position/")
+                .put("/school-service/api/department")
 
                 .then()
                 .log().body()
                 .statusCode(200)
-                .body("name", equalTo(positionsName))
         ;
     }
 
-    @Test(dependsOnMethods = "updatePositions")
-    public void deletePositions() {
+    @Test(dependsOnMethods = "updateParameters")
+    public void deleteParameters() {
 
         given()
-
                 .spec(recSpec)
-                .pathParam("positionsID", positionsID)
                 .log().uri()
 
                 .when()
-                .delete("/school-service/api/employee-position/{positionsID}")
+                .delete("/school-service/api/department/" + departmentsId)
 
                 .then()
                 .log().body()
-                .statusCode(204)
-        ;
+                .statusCode(204);
     }
 
-    @Test(dependsOnMethods = "deletePositions")
-    public void deletePositionsNegative() {
-
+    @Test(dependsOnMethods = "deleteParameters")
+    public void deleteDepartmentsNegative() {
         given()
 
                 .spec(recSpec)
-                .pathParam("positionsID", positionsID)
                 .log().uri()
 
                 .when()
-                .delete("/school-service/api/employee-position/{positionsID}")
+                .delete("/school-service/api/department/" + departmentsId)
 
                 .then()
                 .log().body()

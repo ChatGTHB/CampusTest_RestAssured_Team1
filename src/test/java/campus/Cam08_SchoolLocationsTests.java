@@ -16,14 +16,16 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Cam06_PositionsTests {
+public class Cam08_SchoolLocationsTests {
 
     Faker faker = new Faker();
-    String positionsID;
-    String positionsName;
-    String positionsShort;
+    String SchoolLocationID;
+    String SchoolLocationName;
+    String SchoolLocationShortName;
+    String SchoolLocationCapacity;
+
     RequestSpecification recSpec;
-    Map<String, String> positions = new HashMap<>();
+    Map<String, String> SchoolLocation;
 
     @BeforeClass
     public void Setup() {
@@ -36,9 +38,7 @@ public class Cam06_PositionsTests {
         userCredential.put("rememberMe", "true");
 
         Cookies cookies =
-
                 given()
-
                         .contentType(ContentType.JSON)
                         .body(userCredential)
 
@@ -46,7 +46,7 @@ public class Cam06_PositionsTests {
                         .post("/auth/login")
 
                         .then()
-                        // .log().all()
+                        //.log().all()
                         .statusCode(200)
                         .extract().response().getDetailedCookies();
 
@@ -55,48 +55,54 @@ public class Cam06_PositionsTests {
                 .addCookies(cookies)
                 .build();
     }
-
     @Test
-    public void createPositions() {
+    public void CreateSchoolLocations() {
 
-        positionsName = "seyma" + faker.number().digits(5);
-        positionsShort = "seyma" + faker.number().digits(5);
+        SchoolLocation = new HashMap<>();
 
-        positions.put("name", positionsName);
-        positions.put("shortName", positionsShort);
-        positions.put("tenantId", "6390ef53f697997914ec20c2");
-        positions.put("active", "true");
+        SchoolLocationName = faker.name().firstName() + faker.number().digits(5);
+        SchoolLocationShortName = faker.name().lastName() + faker.number().digits(3);
+        SchoolLocationCapacity = faker.number().digits(5);
 
-        positionsID =
+        SchoolLocation.put("name", SchoolLocationName);
+        SchoolLocation.put("shortName", SchoolLocationShortName);
+        SchoolLocation.put("capacity", SchoolLocationCapacity);
+        SchoolLocation.put("type", "LABORATORY");
+        SchoolLocation.put("school", "6390f3207a3bcb6a7ac977f9");
+
+        SchoolLocationID =
 
                 given()
 
                         .spec(recSpec)
-                        .body(positions)
+                        .body(SchoolLocation)
                         .log().body()
 
                         .when()
-                        .post("/school-service/api/employee-position")
+                        .post("/school-service/api/location")
 
                         .then()
                         .log().body()
                         .statusCode(201)
                         .extract().path("id");
 
-        System.out.println("positionsID = " + positionsID);
+        System.out.println("LocationID = " + SchoolLocationID);
     }
 
-    @Test(dependsOnMethods = "createPositions")
-    public void createPositionsNegative() {
+    @Test(dependsOnMethods = "CreateSchoolLocations")
+    public void createSchoolLocationsNegative() {
+
+        SchoolLocation.put("name", SchoolLocationName);
+        SchoolLocation.put("shortName", SchoolLocationShortName);
 
         given()
 
                 .spec(recSpec)
-                .body(positions)
+                .body(SchoolLocation)
                 .log().body()
 
                 .when()
-                .post("/school-service/api/employee-position")
+                .post("/school-service/api/location")
 
                 .then()
                 .log().body()
@@ -105,64 +111,63 @@ public class Cam06_PositionsTests {
         ;
     }
 
-    @Test(dependsOnMethods = "createPositionsNegative")
-    public void updatePositions() {
+    @Test(dependsOnMethods = "createSchoolLocationsNegative")
+    public void updateSchoolLocations() {
 
-        positions.put("id", positionsID);
-
-        positionsName = ("TechnoStudy" + faker.number().digits(5));
-        positions.put("name", positionsName);
-        positions.put("shortName", positionsShort);
+        SchoolLocation.put("id", SchoolLocationID);
+        SchoolLocationName = ("TechnoStudy" + faker.number().digits(5));
+        SchoolLocation.put("name", SchoolLocationName);
+        SchoolLocation.put("shortName", SchoolLocationShortName);
 
         given()
 
                 .spec(recSpec)
-                .body(positions)
+                .body(SchoolLocation)
                 // .log().body()
 
                 .when()
-                .put("/school-service/api/employee-position/")
+                .put("/school-service/api/location")
 
                 .then()
                 .log().body()
                 .statusCode(200)
-                .body("name", equalTo(positionsName))
+                .body("id", equalTo(SchoolLocationID))
         ;
     }
 
-    @Test(dependsOnMethods = "updatePositions")
-    public void deletePositions() {
+    @Test(dependsOnMethods = "updateSchoolLocations")
+    public void deleteSchoolLocations() {
 
         given()
 
                 .spec(recSpec)
-                .pathParam("positionsID", positionsID)
+                .pathParam("SchoolLocationID", SchoolLocationID)
                 .log().uri()
 
                 .when()
-                .delete("/school-service/api/employee-position/{positionsID}")
+                .delete("/school-service/api/location/{SchoolLocationID}")
 
                 .then()
                 .log().body()
-                .statusCode(204)
+                .statusCode(200)
         ;
     }
 
-    @Test(dependsOnMethods = "deletePositions")
-    public void deletePositionsNegative() {
-
+    @Test(dependsOnMethods = "deleteSchoolLocations")
+    public void deleteSchoolLocationNegative() {
         given()
 
                 .spec(recSpec)
-                .pathParam("positionsID", positionsID)
+                .pathParam("SchoolLocationID", SchoolLocationID)
                 .log().uri()
 
                 .when()
-                .delete("/school-service/api/employee-position/{positionsID}")
+                .delete("/school-service/api/location/{SchoolLocationID}")
 
                 .then()
                 .log().body()
-                .statusCode(204)
+                .statusCode(400)
+                .body("message", equalTo("School Location not found"))
         ;
     }
 }
