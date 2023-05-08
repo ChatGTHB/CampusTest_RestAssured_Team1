@@ -1,11 +1,15 @@
 package campus;
+
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookies;
 import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -45,6 +49,7 @@ public class Cam04_DocumentTypesTests {
                 .addCookies(cookies)
                 .build();
     }
+
     @Test
     public void addDocument() {
 
@@ -80,17 +85,14 @@ public class Cam04_DocumentTypesTests {
         System.out.println("documentTypesId = " + documentTypesId);
     }
 
-
-
     @Test(dependsOnMethods = "addDocument")
     public void updateDocument() {
-
 
         given()
 
                 .spec(requestSpecification)
                 .body("{\n" +
-                        "  \"id\": \""+documentTypesId+"\",\n" +
+                        "  \"id\": \"" + documentTypesId + "\",\n" +
                         "  \"name\": \"entrance examination\",\n" +
                         "  \"description\": \"\",\n" +
                         "  \"attachmentStages\": [\n" +
@@ -110,7 +112,6 @@ public class Cam04_DocumentTypesTests {
                 .then()
                 .log().body()
                 .statusCode(200)
-
         ;
     }
 
@@ -133,8 +134,6 @@ public class Cam04_DocumentTypesTests {
 
     @Test(dependsOnMethods = "deleteDocument")
     public void deleteDocumentNegative() {
-
-
 
         given()
 

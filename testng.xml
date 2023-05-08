@@ -3,8 +3,18 @@
 <suite name="All Test Suite">
     <test name="Main Test">
         <classes>
-            <class name="campus.Cam00_CountryTests">
-            </class>
+            <class name="campus.Cam02_PositionCategoriesTests"></class>
+            <class name="campus.Cam03_AttestationsTests"></class>
+            <class name="campus.Cam04_DocumentTypesTests"></class>
+            <class name="campus.Cam05_FieldsTests"></class>
+            <class name="campus.Cam06_PositionsTests"></class>
+            <class name="campus.Cam07_SubjectCategoriesTests"></class>
+            <class name="campus.Cam08_SchoolLocationsTests"></class>
+            <class name="campus.Cam09_DepartmentsTests"></class>
+            <class name="campus.Cam10_BankAccountsTests"></class>
+            <class name="campus.Cam11_GradeLevelsTests"></class>
+            <class name="campus.Cam12_DiscountsTests"></class>
+            <class name="campus.Cam13_NationalitiesTests"></class>
         </classes>
     </test>
 </suite>

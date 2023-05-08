@@ -24,12 +24,12 @@ public class Cam05_FieldsTests {
     String newfieldName;
     String newfieldCode;
     Faker faker=new Faker();
-
     RequestSpecification recSpec;
     Map<String,String> fields=new HashMap<>();
 
     @BeforeClass
     public void Setup()  {
+
         baseURI="https://test.mersys.io";
 
         Map<String,String> userCredential=new HashMap<>();
@@ -59,7 +59,6 @@ public class Cam05_FieldsTests {
     @Test
     public void createFields() {
 
-
      fieldName="field-"+faker.number().digits(3);
      fieldCode=faker.number().digits(5);
         fields.put("name",fieldName);
@@ -80,7 +79,6 @@ public class Cam05_FieldsTests {
                         .log().body()
                         .statusCode(201)
                         .extract().path("id");
-
     }
 
     @Test(dependsOnMethods = "createFields")
@@ -129,6 +127,7 @@ public class Cam05_FieldsTests {
     public void deleteFields()  {
 
         given()
+
                 .spec(recSpec)
                 .log().uri()
 

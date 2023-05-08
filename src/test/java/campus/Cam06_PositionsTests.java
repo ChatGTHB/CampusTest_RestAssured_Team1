@@ -1,6 +1,5 @@
 package campus;
 
-
 import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -16,7 +15,6 @@ import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-
 
 public class Cam06_PositionsTests {
 
@@ -60,7 +58,6 @@ public class Cam06_PositionsTests {
 
     @Test
     public void createPositions() {
-
 
         positionsName = "seyma" + faker.number().digits(5);
         positionsShort = "seyma" + faker.number().digits(5);

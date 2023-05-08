@@ -21,16 +21,15 @@ public class Cam11_GradeLevelsTests {
     String gradelevelID;
     String gradelevelName;
     String gradelevelShortName;
-
     RequestSpecification recSpec;
     Map<String, String> gradeLevel;
-
     @BeforeClass
     public void Setup() {
 
         baseURI = "https://test.mersys.io";
 
         Map<String, String> userCredential = new HashMap<>();
+
         userCredential.put("username", "turkeyts");
         userCredential.put("password", "TechnoStudy123");
         userCredential.put("rememberMe", "true");
@@ -154,6 +153,7 @@ public class Cam11_GradeLevelsTests {
 
     @Test(dependsOnMethods = "deleteGradeLevel")
     public void deleteGradeLevelNegative() {
+
         given()
 
                 .spec(recSpec)
