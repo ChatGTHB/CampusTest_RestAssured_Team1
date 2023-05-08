@@ -16,7 +16,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Cam08_SchoolLocations {
+public class Cam08_SchoolLocationsTests {
 
     Faker faker = new Faker();
     String SchoolLocationID;
@@ -132,7 +132,6 @@ public class Cam08_SchoolLocations {
                 .statusCode(200)
                 .body("id", equalTo(SchoolLocationID))
         ;
-
     }
 
     @Test(dependsOnMethods = "updateSchoolLocations")
