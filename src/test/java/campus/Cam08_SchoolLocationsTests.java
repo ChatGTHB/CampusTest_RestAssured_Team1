@@ -29,6 +29,7 @@ public class Cam08_SchoolLocationsTests {
 
     @BeforeClass
     public void Setup() {
+
         baseURI = "https://test.mersys.io";
 
         Map<String, String> userCredential = new HashMap<>();
