@@ -17,13 +17,11 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 public class Cam10_BankAccountsTests {
-
     Faker faker = new Faker();
     String bankAccountID;
     String bankAccountUserName;
     Map<String, String> bankAccount;
     RequestSpecification requestSpecification;
-
     @BeforeClass
     public void login() {
 
@@ -58,9 +56,9 @@ public class Cam10_BankAccountsTests {
     @Test
     public void createBankAccount() {
 
-       bankAccount=new HashMap<>();
+        bankAccount = new HashMap<>();
 
-        bankAccountUserName= faker.address().firstName()+" "+faker.address().lastName();
+        bankAccountUserName = faker.address().firstName() + " " + faker.address().lastName();
         bankAccount.put("name", bankAccountUserName);
 
         bankAccount.put("iban", "DE" + faker.number().digits(12));
@@ -68,7 +66,6 @@ public class Cam10_BankAccountsTests {
 
         bankAccount.put("currency", "EUR");
         bankAccount.put("schoolId", "6390f3207a3bcb6a7ac977f9");
-
 
         bankAccountID =
 
@@ -110,7 +107,7 @@ public class Cam10_BankAccountsTests {
     @Test(dependsOnMethods = "createBankAccount")
     public void updateBankAccount() {
 
-        bankAccountUserName= faker.address().firstName()+" "+faker.address().lastName()+" "+faker.address().lastName();
+        bankAccountUserName = faker.address().firstName() + " " + faker.address().lastName() + " " + faker.address().lastName();
         bankAccount.put("name", bankAccountUserName);
 
         bankAccount.put("iban", "DE" + faker.number().digits(16));
@@ -118,7 +115,7 @@ public class Cam10_BankAccountsTests {
 
         bankAccount.put("currency", "USD");
         bankAccount.put("schoolId", "6390f3207a3bcb6a7ac977f9");
-        bankAccount.put("id",bankAccountID);
+        bankAccount.put("id", bankAccountID);
 
         given()
 
