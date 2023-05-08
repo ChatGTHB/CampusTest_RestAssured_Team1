@@ -57,7 +57,9 @@ public class Cam12_DiscountsTests {
 
     @Test
     public void createDiscounts() {
+
         discount = new HashMap<>();
+
         discountDescription = faker.nation().nationality() + faker.number().digits(5);
         discountCode = faker.code().asin() + faker.number().digits(5);
 
@@ -65,6 +67,7 @@ public class Cam12_DiscountsTests {
         discount.put("code", discountCode);
 
         discountID =
+
                 given()
 
                         .spec(recSpec)
@@ -77,16 +80,15 @@ public class Cam12_DiscountsTests {
                         .then()
                         .log().body()
                         .statusCode(201)
-                        .extract().path("id");
-
-
+                        .extract().path("id")
+        ;
     }
 
     @Test(dependsOnMethods = "createDiscounts")
     public void createDiscountsNegative() {
+
         discount.put("description", discountDescription);
         discount.put("code", discountCode);
-
 
         given()
 
@@ -100,13 +102,13 @@ public class Cam12_DiscountsTests {
                 .then()
                 .log().body()
                 .statusCode(400)
-                .body("message", containsString("already"));
-
-
+                .body("message", containsString("already"))
+        ;
     }
 
     @Test(dependsOnMethods = "createDiscountsNegative")
     public void updateDiscounts() {
+
         discount.put("id", discountID);
 
         discountDescription = ("TechnoStudy-" + faker.number().digits(5));
@@ -127,11 +129,11 @@ public class Cam12_DiscountsTests {
                 .statusCode(200)
                 .body("description", equalTo(discountDescription))
         ;
-
     }
 
     @Test(dependsOnMethods = "updateDiscounts")
     public void deleteDiscounts() {
+
         given()
 
                 .spec(recSpec)
@@ -145,12 +147,11 @@ public class Cam12_DiscountsTests {
                 .log().body()
                 .statusCode(200)
         ;
-
-
     }
 
     @Test(dependsOnMethods = "deleteDiscounts")
     public void deleteDiscountsNegative() {
+
         given()
 
                 .spec(recSpec)
@@ -165,6 +166,5 @@ public class Cam12_DiscountsTests {
                 .statusCode(400)
                 .body("message", equalTo("Discount not found"))
         ;
-
     }
 }
