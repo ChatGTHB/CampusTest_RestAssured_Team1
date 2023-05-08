@@ -6,29 +6,15 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Cookies;
 import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
-
-
-        import com.github.javafaker.Faker;
-        import io.restassured.builder.RequestSpecBuilder;
-        import io.restassured.http.ContentType;
-        import io.restassured.http.Cookies;
-        import io.restassured.specification.RequestSpecification;
-        import org.testng.annotations.BeforeClass;
-        import org.testng.annotations.Test;
-
-        import java.util.HashMap;
-        import java.util.Map;
-
-        import static io.restassured.RestAssured.baseURI;
-        import static io.restassured.RestAssured.given;
-        import static org.hamcrest.Matchers.containsString;
-        import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 public class Cam13_NationalitiesTests {
 
@@ -95,7 +81,6 @@ public class Cam13_NationalitiesTests {
                         .statusCode(201)
                         .extract().path("id")
         ;
-
         System.out.println("NationalitiesID = " + NationalitiesID);
     }
 
@@ -145,7 +130,7 @@ public class Cam13_NationalitiesTests {
     }
 
     @Test(dependsOnMethods = "updateNationalities")
-    public void deleteNationalities(){
+    public void deleteNationalities() {
 
         given()
 
@@ -161,8 +146,8 @@ public class Cam13_NationalitiesTests {
         ;
     }
 
-    @Test (dependsOnMethods = "deleteNationalities")
-    public void deleteNationalitiesNegative(){
+    @Test(dependsOnMethods = "deleteNationalities")
+    public void deleteNationalitiesNegative() {
 
         given()
 
