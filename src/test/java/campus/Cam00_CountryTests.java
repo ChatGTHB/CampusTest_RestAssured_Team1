@@ -73,7 +73,7 @@ public class Cam00_CountryTests {
                         .log().body()
                         .statusCode(201)
                         .extract().path("id");
-        ;
+
 
         System.out.println("countryID = " + countryID);
     }
