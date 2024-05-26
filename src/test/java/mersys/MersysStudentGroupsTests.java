@@ -17,6 +17,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 public class MersysStudentGroupsTests {
+
     Faker randomGenerator = new Faker();
     String studentGroupID;
     String studentGroupSchoolID = "646cbb07acf2ee0d37c6d984";
@@ -49,10 +50,10 @@ public class MersysStudentGroupsTests {
         Cookies cookies =
 
                 given()
-
                         .contentType(ContentType.JSON).body(userCredential)
 
-                        .when().post("https://test.mersys.io/auth/login")
+                        .when()
+                        .post("https://test.mersys.io/auth/login")
 
                         .then()
 //                       .log().all()
@@ -60,6 +61,7 @@ public class MersysStudentGroupsTests {
 
         requestSpecification = new RequestSpecBuilder().setContentType(ContentType.JSON).addCookies(cookies).build();
     }
+
 
     @Test
     public void createStudentGroup() {
@@ -71,24 +73,38 @@ public class MersysStudentGroupsTests {
 
         studentGroupID =
 
-                given().spec(requestSpecification).body(studentGroup).log().body()
+                given()
+                        .spec(requestSpecification).body(studentGroup).log().body()
 
-                        .when().post("")
+                        .when()
+                        .post("")
 
-                        .then().log().body().statusCode(201).extract().path("id");
+                        .then()
+                        .log().body()
+                        .statusCode(201)
+                        .extract().path("id");
 
         System.out.println("studentGroupID = " + studentGroupID);
     }
 
+
     @Test(dependsOnMethods = "createStudentGroup")
     public void createStudentGroupNegative() {
 
-        given().spec(requestSpecification).body(studentGroup).log().body()
+        given()
+                .spec(requestSpecification)
+                .body(studentGroup)
+                .log().body()
 
-                .when().post("")
+                .when()
+                .post("")
 
-                .then().log().body().statusCode(400).body("message", containsString("already"));
+                .then()
+                .log().body()
+                .statusCode(400)
+                .body("message", containsString("already"));
     }
+
 
     @Test(dependsOnMethods = "createStudentGroup")
     public void editStudentGroup() {
@@ -97,32 +113,51 @@ public class MersysStudentGroupsTests {
         studentGroup.put("name", "New " + studentGroupName);
         studentGroup.put("description", studentGroupDescription + randomGenerator.shakespeare());
 
-        given().spec(requestSpecification).body(studentGroup)
+        given()
+                .spec(requestSpecification)
+                .body(studentGroup)
                 // .log().body()
 
-                .when().put("")
+                .when()
+                .put("")
 
-                .then().log().body() // show incoming body as log
-                .statusCode(200).body("name", equalTo("New " + studentGroupName));
+                .then()
+                .log().body() // show incoming body as log
+                .statusCode(200)
+                .body("name", equalTo("New " + studentGroupName));
     }
+
 
     @Test(dependsOnMethods = "editStudentGroup")
     public void deleteStudentGroup() {
 
-        given().spec(requestSpecification).log().uri()
+        given()
+                .spec(requestSpecification)
+                .log().uri()
 
-                .when().delete(studentGroupID)
+                .when()
+                .delete(studentGroupID)
 
-                .then().log().body().statusCode(200);
+                .then()
+                .log().body()
+                .statusCode(200);
     }
+
 
     @Test(dependsOnMethods = "deleteStudentGroup")
     public void deleteStudentGroupNegative() {
 
-        given().spec(requestSpecification).pathParam("studentGroupID", studentGroupID).log().uri()
+        given()
+                .spec(requestSpecification)
+                .pathParam("studentGroupID", studentGroupID)
+                .log().uri()
 
-                .when().delete("{studentGroupID}")
+                .when()
+                .delete("{studentGroupID}")
 
-                .then().log().body().statusCode(400).body("message", equalTo("Group with given id does not exist!"));
+                .then()
+                .log().body()
+                .statusCode(400)
+                .body("message", equalTo("Group with given id does not exist!"));
     }
 }
